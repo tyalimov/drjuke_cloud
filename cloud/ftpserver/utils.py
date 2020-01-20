@@ -32,7 +32,7 @@ def GetResourceFile(filename):
 def GetHashes():
     for (dirpath, dirnames, filenames) in os.walk(GetResourcesPath()):
         for filename in filenames:
-            g_ResourceParameters[filename] = Sha512(GetResourceFile(filename))
+            g_ResourceParameters[filename] = (Sha512(GetResourceFile(filename)), os.stat(GetResourceFile(filename)).st_size)
         break
 
     return json.dumps(g_ResourceParameters).encode('utf-8')
