@@ -6,7 +6,7 @@ import json
 BUF_SIZE = 65536
 
 g_Hashes = ""
-g_ResourcesDirectory = "resources"
+g_ResourcesDirectory = "ftp_data\\resources"
 g_ResourceParameters = dict()
 
 def Sha512(filename):
