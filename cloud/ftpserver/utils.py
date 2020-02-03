@@ -6,7 +6,7 @@ import json
 BUF_SIZE = 65536
 
 g_Hashes = ""
-g_ResourcesDirectory = "ftp_data\\resources"
+g_ResourcesDirectory = "ftp_data\\av_distributive"
 g_ResourceParameters = dict()
 
 def Sha512(filename):
@@ -30,9 +30,19 @@ def GetResourceFile(filename):
     return os.path.join(GetResourcesPath(), filename)
 
 def GetHashes():
-    for (dirpath, dirnames, filenames) in os.walk(GetResourcesPath()):
+    
+    files_list = []
+    resources_dir = GetResourcesPath()
+    for (root, dirnames, filenames) in os.walk(resources_dir):
         for filename in filenames:
-            g_ResourceParameters[filename] = (Sha512(GetResourceFile(filename)), os.stat(GetResourceFile(filename)).st_size)
-        break
+            rel_dir = os.path.relpath(root, resources_dir)
+            rel_file = os.path.join(rel_dir, filename)
+            files_list.append(rel_file)
+            #print(rel_file)
+
+    for filename in files_list:
+        g_ResourceParameters[filename] = (Sha512(GetResourceFile(filename)), os.stat(GetResourceFile(filename)).st_size)
+
+
 
     return json.dumps(g_ResourceParameters).encode('utf-8')
