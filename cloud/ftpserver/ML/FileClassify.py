@@ -1,13 +1,13 @@
 import pickle
 import numpy as np
-from PropertiesPE import PropertiesPE
+from ML.PropertiesPE import PropertiesPE
 
 
 class FileClassify():
 
     def __init__(self):
-        self.model = pickle.load(open('model.sav', 'rb'))
-        self.param = pickle.load(open('param', 'rb'))
+        self.model = pickle.load(open('ML\\model.sav', 'rb'))
+        self.param = pickle.load(open('ML\\param', 'rb'))
 
     def __get_best_param(self, proper):
         best_proper = []

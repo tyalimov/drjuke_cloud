@@ -3,11 +3,14 @@ import sys
 import os 
 import json
 
+import ML.FileClassify
+
 BUF_SIZE = 65536
 
-g_Hashes = ""
-g_ResourcesDirectory = "ftp_data\\av_distributive"
-g_ResourceParameters = dict()
+g_Hashes              = ""
+g_ResourcesDirectory  = "ftp_data\\av_distributive"
+g_MalwareDirectory    = "ftp_data\\malware"
+g_ResourceParameters  = dict()
 
 def Sha512(filename):
     sha512 = hashlib.sha512()
@@ -24,6 +27,9 @@ def GetMyPath():
     return os.path.dirname(os.path.realpath(__file__))
 
 def GetResourcesPath():
+    return os.path.join(GetMyPath(), g_ResourcesDirectory)
+
+def GetMalwarePath():
     return os.path.join(GetMyPath(), g_ResourcesDirectory)
 
 def GetResourceFile(filename):
@@ -43,6 +49,14 @@ def GetHashes():
     for filename in files_list:
         g_ResourceParameters[filename] = (Sha512(GetResourceFile(filename)), os.stat(GetResourceFile(filename)).st_size)
 
-
-
     return json.dumps(g_ResourceParameters).encode('utf-8')
+
+def AiScan(filename):
+    target = os.path.join(GetMalwarePath(), filename)
+    classifier = ML.FileClassify.FileClassify()
+    result = classifier.isMalware(target)
+
+    if result:
+        return "{ \"infected\" : true }"
+    else:
+        return "{ \"infected\" : false }"

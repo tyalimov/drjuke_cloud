@@ -17,12 +17,17 @@ class RequestHandler(http.server.BaseHTTPRequestHandler):
         self.end_headers()  
     
     def do_GET(self):
-        # response for a GET request
+        # response for a GET reques
         self.send_response(200)
         self.wfile.write(utils.GetHashes())
         
     def do_POST(self):
-        self.send_response(404) 
+        print("Got post")
+        content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
+        post_data = self.rfile.read(content_length) # <--- Gets the data itself
+        filename = post_data.decode('utf-8')
+        self.send_response(200)
+        self.wfile.write(utils.AiScan(filename).encode('utf-8'))
   
 def run(server_class = http.server.HTTPServer, handler_class = http.server.BaseHTTPRequestHandler):
     server_address = (HOST_ADDRESS, HOST_PORT)
