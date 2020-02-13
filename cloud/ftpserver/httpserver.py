@@ -4,7 +4,7 @@ import urllib
 import utils
 
 PORT = 9999
-HOST_ADDRESS = "127.0.0.1"
+HOST_ADDRESS = "0.0.0.0"
 HOST_PORT = 9999
 
 class RequestHandler(http.server.BaseHTTPRequestHandler):

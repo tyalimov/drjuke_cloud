@@ -9,7 +9,7 @@ def main():
     authorizer.add_anonymous(os.getcwd(), perm='elradfmwMT')
     authorizer.add_user(username='uploader', password='uploader', perm='elradfmwMT', homedir='ftp_data\\malware')
     authorizer.add_user(username='updater', password='updater', perm='elradfmwMT', homedir='ftp_data\\av_distributive')
-    address = ("127.0.0.1", 21)             
+    address = ("0.0.0.0", 21)             
     handler = FTPHandler
     handler.authorizer = authorizer
     server  = FTPServer(address, handler)
